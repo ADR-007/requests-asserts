@@ -5,7 +5,7 @@ description = "The library to help test your HTTP requests using unittests"
 authors = ["Adrian Dankiv <adr-007@ukr.net>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 requests = "^2.22"
 responses = "^0.10.6"
 
