@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "requests-asserts"
+version = "0.1.0"
+description = "The library to help test your HTTP requests using unittests"
+authors = ["Adrian Dankiv <adr-007@ukr.net>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.22"
+responses = "^0.10.6"
+
+[tool.poetry.dev-dependencies]
+coverage = "^4.5"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
