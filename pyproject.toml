@@ -3,6 +3,17 @@ name = "requests-asserts"
 version = "0.1.0"
 description = "The library to help test your HTTP requests using unittests"
 authors = ["Adrian Dankiv <adr-007@ukr.net>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/ADR-007/requests-asserts"
+keywords = ["mock", "requests", "unittests", "tests", "http"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Testing :: Mocking",
+    "Topic :: Software Development :: Testing :: Unit",
+    "Topic :: Internet :: WWW/HTTP",
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"
