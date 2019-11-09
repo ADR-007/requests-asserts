@@ -47,9 +47,7 @@ jobs:
           name: Run Unittest, report coverage
           command: |
             poetry run coverage run --omit="/home/circleci/.cache/pypoetry/virtualenvs" -m unittest discover
-      #            poetry run coveralls
-
-      - coveralls/upload
+            poetry run coveralls
 
       - store_artifacts:
           path: htmlcov
