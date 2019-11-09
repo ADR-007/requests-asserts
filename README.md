@@ -1,11 +1,23 @@
+# Requests-Asserts
+
 [![CircleCI](https://circleci.com/gh/ADR-007/requests-asserts.svg?style=svg)](https://circleci.com/gh/ADR-007/requests-asserts)
 [![Coverage Status](https://coveralls.io/repos/github/ADR-007/requests-asserts/badge.svg?branch=master)](https://coveralls.io/github/ADR-007/requests-asserts?branch=master)
 [![PyPI version](https://badge.fury.io/py/requests-asserts.svg)](https://badge.fury.io/py/requests-asserts)
 
+The decorator and context manager to mock and verify HTTP requests made by `requests` library.
 
-Used to mock response and validate that the requests happened in the right order with right data
+## How to install
 
-Usage example:
+```
+pip install requests-asserts
+```
+
+## How to use
+
+Make a list of `RequestMock` elements that contain all information about the expected request and response.
+Use `RequestMock.assert_requests(request_mocks)` with the list as a decorator or context manager.
+
+### Example
 ```py
 import requests
 from unittests import TestCase 
