@@ -44,10 +44,15 @@ jobs:
       # Last step, runs our tests ommiting the dependencies path (so we don't take their coverage into account)
       # And send our coverage somewhere, in this case, coveralls
       - run:
-          name: Run Pytest, report coverage
+          name: Run Unittest, report coverage
           command: |
             poetry run coverage run --omit="/home/circleci/.cache/pypoetry/virtualenvs" -m unittest discover
-            poetry run coveralls
+      #            poetry run coveralls
+
+      - coveralls/upload
+
+      - store_artifacts:
+          path: htmlcov
 
   # This is the definition of another job, the one we use to publish the package to PyPI
   deployment:
