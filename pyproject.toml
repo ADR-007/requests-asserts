@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "requests-asserts"
-version = "0.1.1"
+version = "0.1.2"
 description = "The library to help test your HTTP requests using unittests"
 authors = ["Adrian Dankiv <adr-007@ukr.net>"]
 license = "MIT"
