@@ -1,0 +1,46 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
+      - image: circleci/python:3.6.4
+
+    working_directory: ~/requests-asserts
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "poetry.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            pip install -u poetry==0.12.17
+            poetry config settings.virtualenv.in-project true
+            poetry install
+
+      - save_cache:
+          paths:
+            - ./venv
+
+          key: v1-dependencies-{{ checksum "poetry.lock" }}
+
+      # run tests!
+      - run:
+          name: run tests
+          command: |
+            poetry run python -m unittest discover
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
