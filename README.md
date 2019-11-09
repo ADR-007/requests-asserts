@@ -1,5 +1,7 @@
 [![CircleCI](https://circleci.com/gh/ADR-007/requests-asserts.svg?style=svg)](https://circleci.com/gh/ADR-007/requests-asserts)
 [![Coverage Status](https://coveralls.io/repos/github/ADR-007/requests-asserts/badge.svg?branch=master)](https://coveralls.io/github/ADR-007/requests-asserts?branch=master)
+[![PyPI version](https://badge.fury.io/py/requests-asserts.svg)](https://badge.fury.io/py/requests-asserts)
+
 
 Used to mock response and validate that the requests happened in the right order with right data
 
