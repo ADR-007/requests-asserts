@@ -8,12 +8,18 @@ import requests
 from unittests import TestCase 
 
 def get_likes_on_post(username, password, post_id):
-    access_token = requests.post('http://my.site/login',
-                                 json={'username': username, 'password': password}).json()['access_token']
+    access_token = requests.post(
+        'http://my.site/login',
+        json={'username': username, 'password': password}
+    ).json()['access_token']
 
-    likes = requests.get(f'http://my.site/posts/{post_id}',
-                         headers={'Accept': 'application/json',
-                                  'Authorization': f'Bearer {access_token}'}).json()['likes']
+    likes = requests.get(
+        f'http://my.site/posts/{post_id}',
+        headers={
+            'Accept': 'application/json', 
+            'Authorization': f'Bearer {access_token}'
+        }
+    ).json()['likes']
 
     return likes
 
