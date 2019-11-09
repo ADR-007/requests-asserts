@@ -35,18 +35,20 @@ jobs:
           paths:
             - /home/circleci/.cache/pypoetry/virtualenvs
 
-      # Another step, run flake8 
-      - run:
-          name: Run flake8
-          command: |
-            poetry run flake8 .
+      #      # Another step, run flake8
+      #      - run:
+      #          name: Run flake8
+      #          command: |
+      #            poetry run flake8 .
+
       # Last step, runs our tests ommiting the dependencies path (so we don't take their coverage into account)
       # And send our coverage somewhere, in this case, coveralls
       - run:
           name: Run Pytest, report coverage
           command: |
-            poetry run coverage run --omit="/home/circleci/.cache/pypoetry/virtualenvs" -m pytest
+            poetry run coverage run --omit="/home/circleci/.cache/pypoetry/virtualenvs" -m
             poetry run coveralls
+
   # This is the definition of another job, the one we use to publish the package to PyPI
   deployment:
 
@@ -64,6 +66,7 @@ jobs:
           name: Push to PyPI
           command: |
             poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+
 # In the workflows section, we specify when we want to run the jobs defined
 workflows:
   version: 2
