@@ -7,7 +7,7 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/requests-asserts)
 ![PyPI - Status](https://img.shields.io/pypi/status/requests-asserts)
 
-The decorator and context manager to mock and verify HTTP requests made by `requests` library.
+The decorator and context manager to mock and verify HTTP requests made by `requests` library for `unittest`.
 
 ## How to install
 
