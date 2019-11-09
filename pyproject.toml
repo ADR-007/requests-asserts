@@ -22,6 +22,7 @@ responses = "^0.10.6"
 
 [tool.poetry.dev-dependencies]
 coverage = "^4.5"
+coveralls = "^1.8"
 
 [build-system]
 requires = ["poetry>=0.12"]
