@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/ADR-007/requests-asserts/badge.svg?branch=master)](https://coveralls.io/github/ADR-007/requests-asserts?branch=master)
+
 Used to mock response and validate that the requests happened in the right order with right data
 
 Usage example:
