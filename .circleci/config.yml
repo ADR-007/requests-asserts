@@ -1,46 +1,96 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
+
 jobs:
-  build:
+
+  # Building and testing the project
+  # Useful when a PR is open, for example
+  build-and-test:
+    # Our environment, Python 3.6.8
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.4
+      - image: circleci/python:3.6.8
 
-    working_directory: ~/requests-asserts
-
+    # The steps for our build-and-test
     steps:
+      # Get the code
       - checkout
 
-      # Download and cache dependencies
+      # Cache can be tricky at first, but this means
+      # Please, restore my cache (what is actually on the cache will be defined later)
+      # if the text key `deps-{{ checksum "poetry.lock" }}` changes (and it WILL change everytime poetry.lock is updated since we rely on its checksum)
+      # and poetry.lock is updated every time we add a new dependency to our project
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "poetry.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            - deps-{{ checksum "poetry.lock" }}
 
+      # Let's install the dependencies
       - run:
-          name: install dependencies
+          name: Install Dependencies
           command: |
-            pip install --user poetry==0.12.17
-            poetry config settings.virtualenv.in-project true
             poetry install
 
+      # Save's the specified path as a cache. This is the path Poetry uses to install the dependencies
+      # So if you don't install anything new, this folder won't change and the cache will be effective
       - save_cache:
+          key: deps-{{ checksum "poetry.lock" }}
           paths:
-            - ./venv
+            - /home/circleci/.cache/pypoetry/virtualenvs
 
-          key: v1-dependencies-{{ checksum "poetry.lock" }}
-
-      # run tests!
+      # Another step, run flake8 
       - run:
-          name: run tests
+          name: Run flake8
           command: |
-            poetry run python -m unittest discover
+            poetry run flake8 .
+      # Last step, runs our tests ommiting the dependencies path (so we don't take their coverage into account)
+      # And send our coverage somewhere, in this case, coveralls
+      - run:
+          name: Run Pytest, report coverage
+          command: |
+            poetry run coverage run --omit="/home/circleci/.cache/pypoetry/virtualenvs" -m pytest
+            poetry run coveralls
+  # This is the definition of another job, the one we use to publish the package to PyPI
+  deployment:
 
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+    # Same environment
+    docker:
+      - image: circleci/python:3.6.8
+      steps:
+
+        # Gets the code
+        - checkout
+
+        # Use `poetry publish` to Publish the package using username and password from CircleCI environment variables
+        # Which can be configured inside CircleCI's interface
+        - run:
+            name: Push to PyPI
+            command: |
+              poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+# In the workflows section, we specify when we want to run the jobs defined
+workflows:
+  version: 2
+
+  # The build-and-test we will run EVERYTIME a piece of code changes
+  build-and-test-workflow:
+    jobs:
+      - build-and-test
+
+  # The deployment workflow publishes the package
+  deployment-workflow:
+    jobs:
+
+      # Runs build and test, but now just on Git tags (created from a GitHub release)
+      - build-and-test:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+
+      # Runs the deployment job, just with the tags as well
+      - deployment:
+          requires:
+            - build-and-test
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
