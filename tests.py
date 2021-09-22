@@ -84,7 +84,7 @@ class TestRequestsAsserts(TestCase):
                 ),
                 (
                         'request_headers', {
-                            'User-Agent': 'python-requests/2.22.0',
+                            'User-Agent': 'python-requests/2.26.0',
                             'Accept-Encoding': 'gzip, deflate',
                             'Accept': '*/*',
                             'Connection': 'keep-alive',
