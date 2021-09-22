@@ -9,6 +9,10 @@ jobs:
     docker:
       - image: cimg/python:<<parameters.python>>
 
+    parameters:
+      python:
+        type: string
+
     # The steps for our build-and-test
     steps:
       # Get the code
@@ -57,7 +61,7 @@ jobs:
 
     # Same environment
     docker:
-      - image: circleci/python:3.6.8
+      - image: cimg/python:3.6.11
     steps:
 
       # Gets the code
