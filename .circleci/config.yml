@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 jobs:
 
@@ -7,7 +7,11 @@ jobs:
   build-and-test:
     # Our environment, Python 3.6.14
     docker:
-      - image: cimg/python:3.6.14
+      - image: cimg/python:<<parameters.python>>
+
+    parameters:
+      python:
+        type: string
 
     # The steps for our build-and-test
     steps:
@@ -57,7 +61,7 @@ jobs:
 
     # Same environment
     docker:
-      - image: circleci/python:3.6.8
+      - image: cimg/python:3.6.11
     steps:
 
       # Gets the code
@@ -72,12 +76,17 @@ jobs:
 
 # In the workflows section, we specify when we want to run the jobs defined
 workflows:
-  version: 2
-
   # The build-and-test we will run EVERYTIME a piece of code changes
   build-and-test-workflow:
     jobs:
-      - build-and-test
+      - build-and-test:
+          python: '3.6'
+      - build-and-test:
+          python: '3.7'
+      - build-and-test:
+          python: '3.8'
+      - build-and-test:
+          python: '3.9'
 
   # The deployment workflow publishes the package
   deployment-workflow:
@@ -90,6 +99,7 @@ workflows:
               only: /v[0-9]+(\.[0-9]+)*/
             branches:
               ignore: /.*/
+          python: '3.6.11'
 
       # Runs the deployment job, just with the tags as well
       - deployment:

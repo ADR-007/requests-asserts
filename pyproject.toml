@@ -13,6 +13,11 @@ classifiers = [
     "Topic :: Software Development :: Testing :: Mocking",
     "Topic :: Software Development :: Testing :: Unit",
     "Topic :: Internet :: WWW/HTTP",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
 ]
 
 [tool.poetry.dependencies]
@@ -21,9 +26,12 @@ requests = "^2.22"
 responses = "^0.14.0"
 
 [tool.poetry.dev-dependencies]
-coverage = "^5.5"
+coverage = {version = "^5.5", extras = ["toml"]}
 coveralls = "^3.2.0"
 
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.coverage.run]
+relative_files = true
